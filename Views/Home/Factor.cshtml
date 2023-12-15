@@ -1,0 +1,338 @@
+﻿@using SmsPanel.Models.Dto
+@model StoreDto
+@{
+    ViewData["Title"] = "Factor";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html class="loading" lang="fa" data-textdirection="rtl" dir="rtl">
+<!-- BEGIN: Head-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>جدول های توسعه یافته</title>
+    <link rel="shortcut icon" type="image/x-icon" href="~/Template/assets/images/ico/favicon.ico">
+    <meta name="theme-color" content="#5A8DEE">
+
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/vendors/css/tables/datatable/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/vendors/css/charts/apexcharts.css">
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/vendors/css/pickers/datepicker-jalali/bootstrap-datepicker.min.css">
+    <!-- END: Vendor CSS-->
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/css/bootstrap-extended.css">
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/css/colors.css">
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/css/components.css">
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/css/themes/dark-layout.css">
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/css/themes/semi-dark-layout.css">
+    <!-- END: Theme CSS-->
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/css/core/menu/menu-types/horizontal-menu.css">
+    <!-- END: Page CSS-->
+    <link rel="shortcut icon" type="image/x-icon" href="~/Template/assets/images/ico/favicon.ico">
+    <meta name="theme-color" content="#5A8DEE">
+
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/vendors/css/vendors.min.css">
+    <!-- END: Vendor CSS-->
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/css/bootstrap-extended.css">
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/css/colors.css">
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/css/components.css">
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/css/themes/dark-layout.css">
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/css/themes/semi-dark-layout.css">
+    <!-- END: Theme CSS-->
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/css/core/menu/menu-types/horizontal-menu.css">
+    <link rel="stylesheet" type="text/css" href="~/Template/assets/css/pages/app-invoice.css">
+</head>
+<!-- END: Head-->
+<!-- BEGIN: Body-->
+<body class="horizontal-layout horizontal-menu navbar-sticky 2-columns   footer-static  " data-open="hover" data-menu="horizontal-menu" data-col="2-columns">
+
+    <div class="content-wrapper">
+        <div class="card">
+            <div class="card-header">
+                <!-- table Transactions start -->
+                <section fixed" id="table-transactions">
+                    <h5 class="card-title">مجموعه تجاری خسروی </h5>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- BEGIN: Content-->
+    <div class="content-overlay"></div>
+
+
+    <!-- invoice view page -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body">
+                    <!-- header section -->
+                    <div class="row line-height-2 mt-n50">
+                        <div class="col-xl-4 col-md-12 mb-50 mb-xl-0">
+                            <span class="invoice-number mr-50">صورتحساب</span>
+                            @* <span>000756</span> *@
+                        </div>
+                        <div class="col-xl-8 col-md-12">
+                            <div class="d-flex align-items-center justify-content-xl-end flex-wrap">
+                                <div class="mr-3">
+                                    <small class="text-muted">تاریخ خرید:</small>
+                                    <span>@Model.Date</span>
+                                </div>
+                                <div>
+                                    <small class="text-muted">ساعت خرید:</small>
+                                    <span>@Model.Time</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- logo and title -->
+                    <div class="row my-3">
+                        <div class="col-sm-6">
+                            <span>نام مشتری :</span>
+                            <h4 class="text-primary">@Model.Name @Model.Family</h4>
+                            <span>تلفن : @Model.Phone</span>
+                        </div>
+                        <div class="mt-1 mt-sm-0 col-sm-6 d-flex justify-content-end">
+                            <img src="~/Template/assets/images/pages/pixinvent-logo2.png" alt="logo" height="46" width="164">
+                        </div>
+                    </div>
+                    <hr>
+                    <!-- invoice address and contact -->
+                    <div class="row invoice-info">
+                        <div class="col-6 mt-1">
+                            @if (@Model.PriceFinal == "0")
+                            {
+                                <h6 class="invoice-from">مبلغ پرداختی نهایی : @Model.PriceFinal</h6>
+                            }
+                            else
+                            {
+                                <h6 class="invoice-from">مبلغ پرداختی نهایی : @Model.PriceFinal ریال</h6>
+                            }
+                            <hr />
+                            <div class="mb-75">
+                                @if (@Model.Card == "0")
+                                {
+                                    <span>پرداخت با کارت : @Model.Card </span>
+                                }
+                                else
+                                {
+                                    <span>پرداخت با کارت : @Model.Card ریال</span>
+                                }
+                            </div>
+                            <hr />
+                            <div class="mb-75">
+                                @if (@Model.Cash == "0")
+                                {
+                                    <span>پرداخت نقدی : @Model.Cash</span>
+                                }
+                                else
+                                {
+                                    <span>پرداخت نقدی : @Model.Cash ریال</span>
+                                }
+                            </div>
+                            <hr />
+                            <div class="mb-75">
+                                @if (@Model.Account == "0")
+                                {
+                                    <span>افزودن به حساب : @Model.Account</span>
+                                }
+                                else
+                                {
+                                    <span>افزودن به حساب : @Model.Account ریال</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-6 mt-1">
+                            @if (@Model.Price == "0")
+                            {
+                                <h6 class="invoice-to">جمع کل قبل از تخفیف : @Model.Price</h6>
+                            }
+                            else
+                            {
+                                <h6 class="invoice-to">جمع کل قبل از تخفیف : @Model.Price ریال</h6>
+                            }
+                            <hr />
+                            <div class="mb-75">
+                                @if (@Model.Discount == "0")
+                                {
+                                    <span>تخفیف : @Model.Discount</span>
+                                }
+                                else
+                                {
+                                    <span>تخفیف : @Model.Discount ریال</span>
+                                }
+                            </div>
+                            <hr />
+                            <div class="mb-75">
+                                @if (@Model.VAT == "0")
+                                {
+                                    <span>مالیات : @Model.VAT</span>
+                                }
+                                else
+                                {
+                                    <span>مالیات : @Model.VAT ریال</span>
+                                }
+                            </div>
+                            <hr />
+                            <div class="mb-75">
+                                <span> جمع اقلام خریداری شده : @Model.SumCount عدد</span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <!-- product details table-->
+                <div class="content-body">
+                    <!-- table Transactions start -->
+                    <section id="table-transactions">
+                        <div class="card">
+                            <div class="card-header">
+                                <!-- head -->
+                                <h5 class="card-title">محصولات خریداری شده</h5>
+                            </div>
+                            <!-- datatable start -->
+                            <div class="table-responsive">
+                                <table id="table-extended-transactions" class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>نام و برند کالا</th>
+                                            <th>تعداد</th>
+                                            <th>قیمت</th>
+                                            <th>تخفیف</th>
+                                            <th>قیمت کل</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.StoreListKala)
+                                        {
+                                            <tr>
+                                                <td><i class="bx bxs-circle success font-small-1 mr-50 align-middle"></i><span>@item.GoodNameGoodBrand</span></td>
+                                                <td class="text-bold-700">@item.tedad</td>
+                                                <td class="text-bold-700">@item.price ریال</td>
+                                                @if (@item.Discount == "0")
+                                                {
+                                                    <td class="text-bold-700">@item.Discount</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-bold-700">@item.Discount ریال</td>
+                                                }
+                                                <td class="text-bold-700">@item.PriceAll ریال</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- datatable ends -->
+                        </div>
+                    </section>
+                    <!-- table Transactions end -->
+                </div>
+                <!-- invoice subtotal -->
+                <div class="card-body pt-0 mx-25">
+                    <hr>
+                    <div>
+                        <p>@Model.Name  @Model.Family  عزیز از اعتمادتان به محصولات ما کمال تشکر و قدردانی را داریم.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-wrapper">
+            <div class="card">
+                <div class="card-header">
+                    <!-- table Transactions start -->
+
+                    <h6 class="card-title">
+                        آدرس : ارومیه، جاده سلماس، روبروی جهاد کشاورزی استان، کوی کامیون داران، رینگ و لاستیک خسروی
+
+
+
+                    </h6>
+                    <hr />
+                    <h6 class="card-title">
+                        تلفن: 09143410396
+                        تلفن: 09145255447
+                    </h6>
+                    <hr />
+                    <h6 class="card-title">
+                        <a href="https://www.instagram.com/khosravii_tire/" target="_blank">‌اینستاگرام :  khosravii_tire</a>
+
+                    </h6>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- invoice action  -->
+
+
+
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <!-- BEGIN: Footer-->
+    <footer class="footer footer-static footer-light">
+        <p class="clearfix mb-0">
+            <span class="float-left d-inline-block">ارائه شده توسط تیم‌ <a href="https://www.CodeNew.ir" target="_blank">‌کدنیو</a></span>
+            <span class="float-right d-sm-inline-block">نرم افزار فندق</span>
+            <button class="btn btn-primary btn-icon scroll-top" type="button"><i class="bx bx-up-arrow-alt"></i></button>
+        </p>
+    </footer>
+    <!-- END: Footer-->
+    <!-- BEGIN: Vendor JS-->
+    <script src="~/Template/assets/vendors/js/vendors.min.js"></script>
+    <script src="~/Template/assets/fonts/LivIconsEvo/js/LivIconsEvo.tools.min.js"></script>
+    <script src="~/Template/assets/fonts/LivIconsEvo/js/LivIconsEvo.defaults.js"></script>
+    <script src="~/Template/assets/fonts/LivIconsEvo/js/LivIconsEvo.min.js"></script>
+    <!-- BEGIN Vendor JS-->
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="~/Template/assets/vendors/js/ui/jquery.sticky.js"></script>
+    <script src="~/Template/assets/vendors/js/tables/datatable/datatables.min.js"></script>
+    <script src="~/Template/assets/vendors/js/tables/datatable/datatables.checkboxes.min.js"></script>
+    <script src="~/Template/assets/vendors/js/charts/apexcharts.min.js"></script>
+    <script src="~/Template/assets/vendors/js/pickers/datepicker-jalali/bootstrap-datepicker.min.js"></script>
+    <script src="~/Template/assets/vendors/js/pickers/datepicker-jalali/bootstrap-datepicker.fa.min.js"></script>
+    <!-- END: Page Vendor JS-->
+    <!-- BEGIN: Theme JS-->
+    <script src="~/Template/assets/js/scripts/configs/horizontal-menu.js"></script>
+    <script src="~/Template/assets/js/core/app-menu.js"></script>
+    <script src="~/Template/assets/js/core/app.js"></script>
+    <script src="~/Template/assets/js/scripts/components.js"></script>
+    <script src="~/Template/assets/js/scripts/footer.js"></script>
+    <script src="~/Template/assets/js/scripts/customizer.js"></script>
+    <!-- END: Theme JS-->
+    <!-- BEGIN: Page JS-->
+    <script src="~/Template/assets/js/scripts/pages/table-extended.js"></script>
+    <!-- END: Page JS-->
+    <script src="~/Template/assets/vendors/js/vendors.min.js"></script>
+    <script src="~/Template/assets/fonts/LivIconsEvo/js/LivIconsEvo.tools.min.js"></script>
+    <script src="~/Template/assets/fonts/LivIconsEvo/js/LivIconsEvo.defaults.js"></script>
+    <script src="~/Template/assets/fonts/LivIconsEvo/js/LivIconsEvo.min.js"></script>
+    <!-- BEGIN Vendor JS-->
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="~/Template/assets/vendors/js/ui/jquery.sticky.js"></script>
+    <!-- END: Page Vendor JS-->
+    <!-- BEGIN: Theme JS-->
+    <script src="~/Template/assets/js/scripts/configs/horizontal-menu.js"></script>
+    <script src="~/Template/assets/js/core/app-menu.js"></script>
+    <script src="~/Template/assets/js/core/app.js"></script>
+    <script src="~/Template/assets/js/scripts/components.js"></script>
+    <script src="~/Template/assets/js/scripts/footer.js"></script>
+    <script src="~/Template/assets/js/scripts/customizer.js"></script>
+    <!-- END: Theme JS-->
+    <!-- BEGIN: Page JS-->
+    <script src="~/Template/assets/js/scripts/pages/app-invoice.js"></script>
+    <!-- END: Page JS-->
+</body>
+<!-- END: Body-->
+</html>
